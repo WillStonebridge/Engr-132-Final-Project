@@ -1,4 +1,4 @@
-function M3_main_002_21
+%function M3_main_002_21
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % ENGR 132 
 % Program Description 
@@ -8,9 +8,9 @@ function M3_main_002_21
 % substrates From there, calculations are made to determine
 % initial reaction velocities (v0), the maximum reaction velocity of the
 % enzyme (Vmax), and the enzyme concentration at half of the maximum 
-% reaction velocity (Km). The original product over time data is plotted, 
-% along with a tangent representing the initial reaction velocity. Finally,
-% the michaelis-menten model is plotted, along with the estimated v0 data.
+% reaction velocity (Km), along with an SSE from the provided v0 data.
+% Finally, the michaelis menten plot, and original data (with v0 tangents)
+% is plotted  .
 %
 % Function Call
 % M2_algorithm_002_21
@@ -35,28 +35,41 @@ function M3_main_002_21
 PGOX50_Data = readmatrix('Data_PGOX50_enzyme');
 
 %the enzyme concentrations the tests are being done at (uM)
-concentrations = testData(6, 2:11);
+concentrations = PGOX50_Data(2, 2:11);
+
+%The provided v0s for the michaelis menten curve
+reference_v0s = [.025 .049 .099 .176 .329 .563 .874 1.192 1.361 1.603];
 
 %% ____________________
 %% CALCULATIONS
 
-%Formats the data on the PGOX50 enzyme data
-PGOX50_Data = formatPGOX50(PGOX50_Data);
+%Runs the algorithm coded in milestone 2. This finds the v0s to be used in
+%the michaelis menten model, along with the Vmax and Km values. It also
+%provides a model for the michaelis menten plot
+[v0s, Vmax, Km, model] = M3_Algorithm_002_21(PGOX50_Data);
 
-%estimates the initial reaction velocities at the tested concentrations
-v0s = find_Vo(PGOX50_Data);
-%Using the enzyme concentrations and corresponding v0s, the linear
-%model of the Lineweaver-Burk plot is created
-[slope, intercept] = LineweaverBurk(v0, concentrations);
-%Using the Lineweaver-Burk model, Vmax and Km are calculated
-[Vmax, Km] = Find_Vmax_Km(slope, intercept);
-
+%Calculates the SSE for the michaelis menten model using the previously
+%calculated v0 data points
+SSE = sum((v0s - model).^2);
 
 %% ____________________
 %% FORMATTED TEXT/FIGURE DISPLAYS
 
-%% ____________________
-%% RESULTS
+%Plots the Original Product data along with v0 tangent lines
+plot_v0s(v0s, PGOX50_Data, concentrations);
+
+%Plots and formats the Michaelis menten plot
+figure(2)
+plot(concentrations, model, '-b');
+hold on;
+grid on;
+plot(concentrations, v0s, 'bd');
+title('Michaelis Menten curve of Enzyme');
+xlabel('Substrate Concentration (uM)');
+ylabel('Initial Velocity (uM/s)');
+legend('Michaelis Menten Curve', "Initial Velocity data points", ...
+    'location', 'best');
+
 
 %% ____________________
 %% ACADEMIC INTEGRITY STATEMENT
@@ -64,3 +77,6 @@ v0s = find_Vo(PGOX50_Data);
 % source, either modified or unmodified. Neither have we provided
 % access to my code to another. The program we are submitting
 % is our own original work.
+
+
+

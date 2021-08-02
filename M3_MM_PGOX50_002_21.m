@@ -125,8 +125,8 @@ ylabel('Initial Velocity')
 legend("Initial Velocity data points", 'Michaelis Menten Curve')
 grid on
 hold off
-fprintf("vmax: %.4f\nkm: %.4f\nSSE: %.4f", Vmax, Km, SSE);
-
+fprintf("\nvmax: %.4f\nkm: %.4f\nSSE: %.4f\nCalculated Vo:\n",Vmax, Km, SSE);
+disp(Vo_Calc(2:11));
 counter = 1; %used to determine which plot is being currently worked on
 counterDisp = 49; %counter value that has to reference the ASCII table to be properly displayed
 for u = 1:5
@@ -161,5 +161,6 @@ end
 % source, either modified or unmodified. Neither have we provided
 % access to my code to another. The program we are submitting
 % is our own original work.
+
 
 

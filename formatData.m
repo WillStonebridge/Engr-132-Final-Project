@@ -32,6 +32,9 @@ function enzymeSets = formatData(testData, enzymeCount)
 %% CALCULATIONS
 
 %Gets the Dimensions of the data set
+for q = 1:100
+    testData(5:end,q+1) = movmean(testData(5:end,q+1), 3);
+end
 testDataDimensions = size(testData);
 
 %Finds the number of tests done on each enzyme
@@ -48,7 +51,7 @@ enzymeIndexes = 2:testCount:testDataDimensions(2)+1;
 %Creates a 3 Dimensional Array with each sheet representing an enzyme and
 %it's corresponding tests.
 for count = 1:5
-   enzymeSets(:,:, count) = testData(: , ...
+   enzymeSets(:,:, count) = testData(: , ... 
        enzymeIndexes(count):enzymeIndexes(count + 1) - 1);
 end
 

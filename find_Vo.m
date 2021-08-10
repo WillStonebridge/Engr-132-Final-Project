@@ -31,7 +31,8 @@ function [avg_Vo] = find_Vo(catalyst_data)
 %% INITIALIZATION
 num_cols = 20; % the number of columns of data for each enzyme
 conc_levels = 10; % the number of concentration levels for each enzyme test
-start_length = 52; % the length of the starting dataset
+%EDIT start_length = 52; % the length of the starting dataset
+start_length = 33;  %changed value for th evalue of Vo                
 time_data = [0:start_length-3]; % establishes the time dataset, of the same length as the starting data
 
 %% ____________________

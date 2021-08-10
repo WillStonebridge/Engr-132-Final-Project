@@ -26,10 +26,19 @@ function formattedPGOX50 = formatPGOX50(PGOX50)
 %% ____________________
 %% CALCULATIONS
 
+
+
 %Finds the size of the enzyme matrix and then crops it such
 %that only the product concentration data remains
+Size = size(PGOX50);
+%Smooths the data for processing using a moving average function
+for q = 1:Size(2)-1
+   PGOX50(5:end, q+1) = movmean(PGOX50(5:end,q+1), 4);
+end
 newSize = size(PGOX50);
 PGOX50 = PGOX50(5:newSize(1), 2:newSize(2));
+
+
 
 %Duplicates the matrix in order to make it fit with the other enzymes,
 %which contain two sets of tests
